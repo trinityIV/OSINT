@@ -1,0 +1,297 @@
+# Gestionnaires de paquets - Documentation et Liens
+NuGet: https://www.nuget.org/
+vcpkg: https://vcpkg.io/
+Chocolatey: https://chocolatey.org/
+Homebrew: https://brew.sh/
+apt: https://wiki.debian.org/Apt
+
+
+
+# Installation rapide (Windows)
+# Note: Exécuter en tant qu'administrateur PowerShell
+
+# 1. Installation de Chocolatey et des dépendances de base
+Set-ExecutionPolicy Bypass -Scope Process -Force
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+choco install -y cmake python3 lua boost-msvc-14.2 openssl curl git visualstudio2022-workload-nativedesktop
+
+# 2. Installation et configuration de vcpkg
+git clone https://github.com/Microsoft/vcpkg.git C:/dev/vcpkg
+cd C:/dev/vcpkg
+./bootstrap-vcpkg.bat
+./vcpkg integrate install
+
+# 3. Installation des packages avec vcpkg
+vcpkg install boost:x64-windows openssl:x64-windows curl:x64-windows lua:x64-windows jsoncpp:x64-windows miniupnpc:x64-windows
+
+# 4. Configuration des variables d'environnement
+[Environment]::SetEnvironmentVariable("VCPKG_ROOT", "C:/dev/vcpkg", "User")
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:/dev/vcpkg", "User")
+
+# 5. Compilation du projet
+mkdir build
+cd build
+cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE=C:/dev/vcpkg/scripts/buildsystems/vcpkg.cmake
+cmake --build . --config Release
+
+
+
+
+# Commandes des gestionnaires de paquets
+
+## NuGet (Visual Studio / .NET)
+# Installation via Visual Studio
+Install-Package boost -Version 1.83.0
+Install-Package openssl-vc143 -Version 3.1.4
+Install-Package curl-vc143 -Version 8.4.0
+Install-Package lua -Version 5.4.6
+Install-Package jsoncpp-vc143 -Version 1.9.5
+Install-Package miniupnpc -Version 2.2.4
+
+# Via ligne de commande
+nuget install boost -Version 1.83.0
+nuget install openssl-vc143 -Version 3.1.4
+nuget install curl-vc143 -Version 8.4.0
+nuget install lua -Version 5.4.6
+nuget install jsoncpp-vc143 -Version 1.9.5
+nuget install miniupnpc -Version 2.2.4
+
+## vcpkg (Gestionnaire C++)
+
+# Installation de vcpkg
+git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+bootstrap-vcpkg.bat
+vcpkg integrate install
+
+# Installation globale
+vcpkg install boost:x64-windows
+vcpkg install openssl:x64-windows
+vcpkg install curl:x64-windows
+vcpkg install lua:x64-windows
+vcpkg install jsoncpp:x64-windows
+vcpkg install miniupnpc:x64-windows
+
+# Installation pour un projet spécifique
+vcpkg install boost:x64-windows --triplet x64-windows
+vcpkg install openssl:x64-windows --triplet x64-windows
+vcpkg install curl:x64-windows --triplet x64-windows
+vcpkg install lua:x64-windows --triplet x64-windows
+vcpkg install jsoncpp:x64-windows --triplet x64-windows
+vcpkg install miniupnpc:x64-windows --triplet x64-windows
+
+# Exporter les dépendances
+vcpkg export boost:x64-windows openssl:x64-windows curl:x64-windows lua:x64-windows jsoncpp:x64-windows miniupnpc:x64-windows --nuget
+
+## Chocolatey (Windows)
+
+# Installation de packages spécifiques
+choco install cmake --version=3.28.0 -y
+choco install python3 --version=3.11.7 -y
+choco install lua --version=5.4.6 -y
+choco install boost-msvc-14.2 --version=1.83.0 -y
+choco install openssl --version=3.1.4 -y
+choco install curl --version=8.4.0 -y
+
+# Mise à jour des packages
+choco upgrade all -y
+
+# Liste des packages installés
+choco list
+
+# Désinstallation
+choco uninstall package_name -y
+
+## apt (Linux - Debian/Ubuntu)
+
+# Mise à jour des dépôts
+sudo apt update
+sudo apt upgrade -y
+
+# Installation de packages
+sudo apt install -y \
+    build-essential \
+    cmake \
+    python3.11 \
+    python3.11-dev \
+    lua5.4 \
+    liblua5.4-dev \
+    libboost-all-dev \
+    libssl-dev \
+    libcurl4-openssl-dev \
+    libjsoncpp-dev \
+    libminiupnpc-dev
+
+# Recherche de packages
+apt search package_name
+
+# Suppression de packages
+sudo apt remove package_name
+sudo apt autoremove
+
+## Homebrew (macOS)
+
+# Installation de packages
+brew install cmake
+brew install python@3.11
+brew install lua@5.4
+brew install boost@1.83.0
+brew install openssl@3.1
+brew install curl
+brew install jsoncpp
+brew install miniupnpc
+
+# Mise à jour
+brew update
+brew upgrade
+
+# Liste des packages installés
+brew list
+
+# Désinstallation
+brew uninstall package_name
+
+## pip (Python)
+
+# Installation de packages avec version spécifique
+pip install requests==2.31.0
+pip install psutil==5.9.6
+pip install python-dotenv==1.0.0
+pip install cryptography==41.0.7
+
+# Liste des packages installés
+pip list
+
+# Mise à jour de pip
+python -m pip install --upgrade pip
+
+# Génération des requirements
+pip freeze > requirements.txt
+
+# Installation depuis requirements.txt
+pip install -r requirements.txt
+
+# Documentation et Liens Directs
+
+## Documentation des composants
+CMake: https://cmake.org/documentation/
+Python: https://docs.python.org/3/
+Lua: https://www.lua.org/docs.html
+Boost: https://www.boost.org/doc/
+OpenSSL: https://www.openssl.org/docs/
+CURL: https://curl.se/docs/
+JsonCpp: https://github.com/open-source-parsers/jsoncpp/wiki
+MiniUPnP: http://miniupnp.free.fr/
+
+## Téléchargements directs (Windows)
+Visual Studio Community: https://visualstudio.microsoft.com/downloads/
+CMake: https://github.com/Kitware/CMake/releases/download/v3.28.0/cmake-3.28.0-windows-x86_64.msi
+Python 3.11: https://www.python.org/ftp/python/3.11.7/python-3.11.7-amd64.exe
+Boost: https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.zip
+
+## Dépôts GitHub
+cpp-httplib: https://github.com/yhirose/cpp-httplib
+Boost: https://github.com/boostorg/boost
+OpenSSL: https://github.com/openssl/openssl
+CURL: https://github.com/curl/curl
+JsonCpp: https://github.com/open-source-parsers/jsoncpp
+MiniUPnP: https://github.com/miniupnp/miniupnp
+
+## IDE et Extensions
+Visual Studio Code: https://code.visualstudio.com/download
+Visual Studio Community: https://visualstudio.microsoft.com/vs/community/
+CLion: https://www.jetbrains.com/clion/download/
+
+### Extensions VSCode recommandées
+- C/C++: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+- CMake Tools: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools
+- Python: https://marketplace.visualstudio.com/items?itemName=ms-python.python
+- Lua: https://marketplace.visualstudio.com/items?itemName=sumneko.lua
+
+{{ ... }}
+
+# Compilation du projet
+
+## Windows (Developer Command Prompt for VS)
+mkdir build
+cd build
+cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE=[chemin vers vcpkg]/scripts/buildsystems/vcpkg.cmake
+cmake --build . --config Release
+
+## Linux/macOS
+mkdir build
+cd build
+cmake ..
+cmake --build . -j$(nproc)
+
+
+# Gestionnaires de paquets - Documentation et Liens
+NuGet: https://www.nuget.org/
+vcpkg: https://vcpkg.io/
+Chocolatey: https://chocolatey.org/
+Homebrew: https://brew.sh/
+apt: https://wiki.debian.org/Apt
+
+# Installation rapide (Windows)
+# Note: Exécuter en tant qu'administrateur PowerShell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')); choco install -y cmake python3 lua boost-msvc-14.2 openssl curl git
+
+{{ ... }}
+
+# Documentation et Liens Directs
+
+## Documentation des composants
+CMake: https://cmake.org/documentation/
+Python: https://docs.python.org/3/
+Lua: https://www.lua.org/docs.html
+Boost: https://www.boost.org/doc/
+OpenSSL: https://www.openssl.org/docs/
+CURL: https://curl.se/docs/
+JsonCpp: https://github.com/open-source-parsers/jsoncpp/wiki
+MiniUPnP: http://miniupnp.free.fr/
+
+## Téléchargements directs (Windows)
+Visual Studio Community: https://visualstudio.microsoft.com/downloads/
+CMake: https://github.com/Kitware/CMake/releases/download/v3.28.0/cmake-3.28.0-windows-x86_64.msi
+Python 3.11: https://www.python.org/ftp/python/3.11.7/python-3.11.7-amd64.exe
+Boost: https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.zip
+
+## Dépôts GitHub
+cpp-httplib: https://github.com/yhirose/cpp-httplib
+Boost: https://github.com/boostorg/boost
+OpenSSL: https://github.com/openssl/openssl
+CURL: https://github.com/curl/curl
+JsonCpp: https://github.com/open-source-parsers/jsoncpp
+MiniUPnP: https://github.com/miniupnp/miniupnp
+
+## IDE et Extensions
+Visual Studio Code: https://code.visualstudio.com/download
+Visual Studio Community: https://visualstudio.microsoft.com/vs/community/
+CLion: https://www.jetbrains.com/clion/download/
+
+### Extensions VSCode recommandées
+- C/C++: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+- CMake Tools: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools
+- Python: https://marketplace.visualstudio.com/items?itemName=ms-python.python
+- Lua: https://marketplace.visualstudio.com/items?itemName=sumneko.lua
+
+# Compilation du projet
+
+## Configuration de vcpkg
+# Remplacer [chemin vers vcpkg] par le chemin absolu où vcpkg est installé
+# Exemple Windows: C:/dev/vcpkg/scripts/buildsystems/vcpkg.cmake
+# Exemple Linux: /usr/local/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+## Windows (Developer Command Prompt for VS)
+mkdir build
+cd build
+cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE=[chemin vers vcpkg]/scripts/buildsystems/vcpkg.cmake
+cmake --build . --config Release
+
+## Linux/macOS
+mkdir build
+cd build
+cmake ..
+cmake --build . -j$(nproc)
+
