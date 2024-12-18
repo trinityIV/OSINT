@@ -1,7 +1,0 @@
-#ifdef _DEBUG
-#define VER_FILEOS 0x4L
-#else
-#define VER_FILEOS 0x2L
-#endif
-#define VER_FILETYPE 0x1L
-#define VER_FILESUBTYPE 0x0L

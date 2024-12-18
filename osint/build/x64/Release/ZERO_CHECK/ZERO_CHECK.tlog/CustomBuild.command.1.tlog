@@ -1,0 +1,10 @@
+^E:\OSINT\BUILD\CMAKEFILES\77B911F2F62D3526570304382F481DDC\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/osint -BE:/osint/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file E:/osint/build/OSINT_Tool_Suite.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

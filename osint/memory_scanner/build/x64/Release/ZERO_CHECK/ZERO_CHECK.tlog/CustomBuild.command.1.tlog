@@ -1,0 +1,10 @@
+^E:\OSINT\MEMORY_SCANNER\BUILD\CMAKEFILES\C3DEE6F893B6F287BCC26FEDB237B093\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/osint/memory_scanner -BE:/osint/memory_scanner/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file E:/osint/memory_scanner/build/OSINT_Memory_Scanner.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

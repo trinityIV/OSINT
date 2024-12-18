@@ -1,0 +1,4 @@
+E:/osint/build/CMakeFiles/osint_suite.dir
+E:/osint/build/CMakeFiles/memory_scanner.dir
+E:/osint/build/CMakeFiles/ALL_BUILD.dir
+E:/osint/build/CMakeFiles/ZERO_CHECK.dir

@@ -1,0 +1,7 @@
+{
+    "functions": [
+        "m_iHealth",
+        "m_iArmor",
+        "m_iAmmo"
+    ]
+}

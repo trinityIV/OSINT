@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Cheat Engine</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #output { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Web Cheat Engine</h1>
+    <button id="connect">Connect to Server</button>
+    <div id="output"></div>
+    <script>
+        const output = document.getElementById('output');
+        const connectButton = document.getElementById('connect');
+        let socket;
+
+        connectButton.addEventListener('click', () => {
+            socket = new WebSocket('ws://localhost:3000');
+            socket.onopen = () => {
+                output.textContent = 'Connected to server';
+            };
+            socket.onmessage = (event) => {
+                output.textContent += `\nReceived: ${event.data}`;
+            };
+            socket.onclose = () => {
+                output.textContent += '\nDisconnected from server';
+            };
+        });
+    </script>
+
+    <h2>Lua Script Executor</h2>
+    <textarea id="lua-script" rows="10" cols="50" placeholder="Write your Lua script here..."></textarea><br>
+    <button id="run-lua">Run Lua Script</button>
+    <div id="lua-output"></div>
+
+    <script src="https://unpkg.com/fengari-web"></script>
+    <script>
+        const luaScriptArea = document.getElementById('lua-script');
+        const runLuaButton = document.getElementById('run-lua');
+        const luaOutput = document.getElementById('lua-output');
+
+        runLuaButton.addEventListener('click', () => {
+            const script = luaScriptArea.value;
+            try {
+                const result = fengari.load(script)();
+                luaOutput.textContent = `Result: ${result}`;
+            } catch (error) {
+                luaOutput.textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
